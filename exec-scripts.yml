@@ -10,12 +10,16 @@
       failed_when: false  # 不将不存在的脚本文件视为失败
 
     - name: Check if script file is executable
+      debug:
+        var: script_file_stat
       stat:
         path: "{{ script_file_path }}"
       register: script_executable_stat
       failed_when: false  # 不将不可执行的脚本文件视为失败
 
     - name: Copy script file
+      debug:
+        var: script_executable_stat
       copy:
         src: "{{ script_file_path }}"
         dest: "{{ target_script_path }}"
