@@ -31,5 +31,4 @@
 
     - name: Return script output
       debug:
-        var: script_result.stdout_lines
-      when: script_result.rc!=0
+        var: script_result
