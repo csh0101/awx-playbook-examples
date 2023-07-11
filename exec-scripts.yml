@@ -1,5 +1,5 @@
 - name: Execute Script
-  hosts: {{ host_name }}  # 你要在哪些机器上执行脚本
+  hosts: "{{ host_name }}" # 你要在哪些机器上执行脚本
   gather_facts: false  # 关闭默认收集facts
   
   tasks:
