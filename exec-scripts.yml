@@ -2,11 +2,7 @@
 - name: Execute Script
   hosts: your_host  # 你要在哪些机器上执行脚本
   gather_facts: false  # 关闭默认收集facts
-
-  vars:
-    script_file_path: /path/to/your_script.sh  # 脚本文件的路径
-    target_script_path: /tmp/your_script.sh  # 目标机器上存放脚本的路径
-
+  
   tasks:
     - name: Check if script file exists
       stat:
