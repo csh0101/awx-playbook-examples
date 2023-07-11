@@ -16,8 +16,6 @@
       failed_when: false  # 不将不可执行的脚本文件视为失败
 
     - name: Copy script file
-      debug:
-        var: script_executable_stat
       copy:
         src: "{{ script_file_path }}"
         dest: "{{ target_script_path }}"
@@ -30,6 +28,21 @@
       register: script_result
       when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
+    - name: Debug - script_file_stat
+      debug:
+        var: script_file_stat
+
+    - name: Debug - script_executable_stat
+      debug:
+        var: script_executable_stat
+
+    - name: Debug - script_result
+      debug:
+        var: script_result
+
+    - name: Debug - environment_variables
+      debug:
+        var: environment_variables
 
     - name: Return script output
       debug:
