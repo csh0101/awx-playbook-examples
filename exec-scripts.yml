@@ -6,52 +6,19 @@
     - name: Check if script file exists
       stat:
         path: "{{ script_file_path }}"
-      register: script_file_stat
-      failed_when: false  # 不将不存在的脚本文件视为失败
 
     - name: Check if script file is executable
       stat:
         path: "{{ script_file_path }}"
-      register: script_executable_stat
-      failed_when: false  # 不将不可执行的脚本文件视为失败
 
     - name: Copy script file
       copy:
         src: "{{ script_file_path }}"
         dest: "{{ target_script_path }}"
         mode: 0755
-        remote_src: true
-      when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
     - name: Execute script
       shell: "{{ target_script_path }}"
       environment: "{{ environment_variables }}"
       register: script_result
-      when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
-    - name: Debug - script_file_path
-      debug: 
-        var: script_file_path
-    - name: Debug - target_script_path
-      debug:
-       var: target_script_path
-
-    - name: Debug - script_file_stat
-      debug:
-        var: script_file_stat
-
-    - name: Debug - script_executable_stat
-      debug:
-        var: script_executable_stat
-
-    - name: Debug - script_result
-      debug:
-        var: script_result
-
-    - name: Debug - environment_variables
-      debug:
-        var: environment_variables
-
-    - name: Return script output
-      debug:
-        var: script_result
