@@ -1,24 +1,15 @@
 - name: Execute Script
   hosts: "{{ host_name }}" # 你要在哪些机器上执行脚本
   gather_facts: false  # 关闭默认收集facts
+  remote_user: root
   
   tasks:
-    - name: Check if script file exists
-      stat:
-        path: "{{ script_file_path }}"
-
-    - name: Check if script file is executable
-      stat:
-        path: "{{ script_file_path }}"
-
     - name: Copy script file
       copy:
         src: "{{ script_file_path }}"
         dest: "{{ target_script_path }}"
-        mode: 0755
+        owner: root
+        group: root
+        mode: 755
 
-    - name: Execute script
-      shell: "{{ target_script_path }}"
-      environment: "{{ environment_variables }}"
-      register: script_result
 
