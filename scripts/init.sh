@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #INSTALL_WAZUH=true
-#HTTP_PROXY="http://force.curiostack.com:3128"
 
 set -ex
 
