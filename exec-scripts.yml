@@ -28,10 +28,6 @@
       register: script_result
       when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
-    - name: Check script execution result
-      debug:
-        msg: "Script execution failed."
-      when: script_result.rc != 0
 
     - name: Return script output
       debug:
