@@ -20,6 +20,7 @@
         src: "{{ script_file_path }}"
         dest: "{{ target_script_path }}"
         mode: 0755
+        remote_src: true
       when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
     - name: Execute script
