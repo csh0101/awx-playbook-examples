@@ -1,0 +1,43 @@
+---
+- name: Execute Script
+  hosts: your_host  # 你要在哪些机器上执行脚本
+  gather_facts: false  # 关闭默认收集facts
+
+  vars:
+    script_file_path: /path/to/your_script.sh  # 脚本文件的路径
+    target_script_path: /tmp/your_script.sh  # 目标机器上存放脚本的路径
+
+  tasks:
+    - name: Check if script file exists
+      stat:
+        path: "{{ script_file_path }}"
+      register: script_file_stat
+      failed_when: false  # 不将不存在的脚本文件视为失败
+
+    - name: Check if script file is executable
+      stat:
+        path: "{{ script_file_path }}"
+      register: script_executable_stat
+      failed_when: false  # 不将不可执行的脚本文件视为失败
+
+    - name: Copy script file
+      copy:
+        src: "{{ script_file_path }}"
+        dest: "{{ target_script_path }}"
+        mode: 0755
+      when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
+
+    - name: Execute script
+      shell: "{{ target_script_path }}"
+      register: script_result
+      when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
+
+    - name: Check script execution result
+      debug:
+        msg: "Script execution failed."
+      when: script_result.failed
+
+    - name: Return script output
+      debug:
+        var: script_result.stdout_lines
+      when: script_result.stdout_lines|length > 0
