@@ -32,4 +32,4 @@
     - name: Return script output
       debug:
         var: script_result.stdout_lines
-      when: script_result.stdout_lines|length > 0
+      when: script_result.rc!=0
