@@ -31,7 +31,7 @@
     - name: Check script execution result
       debug:
         msg: "Script execution failed."
-      when: script_result.failed
+      when: script_result.rc != 0
 
     - name: Return script output
       debug:
