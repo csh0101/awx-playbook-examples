@@ -28,6 +28,13 @@
       register: script_result
       when: script_file_stat.stat.exists and script_executable_stat.stat.mode|bool
 
+    - name: Debug - script_file_path
+      debug: 
+        var: script_file_path
+    - name: Debug - target_script_path
+      debug:
+       var: target_script_path
+
     - name: Debug - script_file_stat
       debug:
         var: script_file_stat
