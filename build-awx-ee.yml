@@ -1,0 +1,48 @@
+- name: Execute Script
+  hosts: "{{ host_name }}" # 你要在哪些机器上执行脚本
+  gather_facts: false  # 关闭默认收集facts
+  remote_user: root
+  
+  tasks:
+    - name: pip config file create
+      file:
+        path: "{{ dir }}"/"{{ pip_config_file }}"  # 目标脚本文件路径
+        mode: "0444"  # 设置脚本文件的权限
+        state: touch  # 创建空文件
+      register: script_file_created
+    - name: docker file create
+      file:
+        path: "{{ dir }}"/"{{ dockerfile }}"
+        mode: "0444"
+        state: file
+
+
+    - name: pip configure
+      blockinfile:
+        path: "{{ dir }}"/"{{ pip_config_file }}"  # 目标脚本文件路径
+        content: |
+        [global]
+        index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+
+      when: script_file_created.changed
+
+    - name: docker file configure
+      blockinfile:
+          path: "{{ dir }}"/"{{ dockerfile }}"      
+          content: |
+          FROM awx-ee:latest
+          # 将自定义的pip配置文件复制到镜像中
+          COPY pip.conf /etc/pip.conf
+    - name: Execute docker build command
+      command: docker build -t "{{ REPO }}"/"{{ IMAGE }}":"{{ TAG }}" .
+      args:
+        chdir: "{{ dir }}" 
+    - name: Log into DockerHub
+      community.docker.docker_login:
+        username: csh0310
+        password: csh031027
+    - name: Execute docker push command
+      shell: docker push "{{ REPO }}"/"{{ IMAGE }}":"{{ TAG }}"
+
+    
+
