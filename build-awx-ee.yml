@@ -33,9 +33,5 @@
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
       args:
         chdir: "{{ dir }}"
-    - name: Log into DockerHub
-      community.docker.docker_login:
-        username: "{{ docker.hub.user }}"
-        password: "{{ docker.hub.password }}"
     - name: Execute docker push command
       shell: docker push "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}"
