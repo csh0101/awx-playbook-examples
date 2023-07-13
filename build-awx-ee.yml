@@ -21,8 +21,9 @@
       blockinfile:
         path: "{{ dir }}/{{ pip_config_file }}"  # 目标脚本文件路径
         content: |
-        [global]
-        index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+          [global]
+          index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+
 
       when: script_file_created.changed
 
