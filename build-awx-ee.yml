@@ -9,3 +9,28 @@
         mode: "0444"
         state: touch
       register: script_file_created
+    - name: docker file create
+      file:
+        path: "{{ dir }}/{{ dockerfile }}"
+        mode: "0444"
+        state: file
+    - name: pip configure
+      blockinfile:
+        path: "{{ dir }}/{{ pip_config_file }}"
+        content: |
+          [global]
+          index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+      when: script_file_created.changed
+    - name: docker file configure
+      blockinfile:
+        path: "{{ dir }}/{{ dockerfile }}"
+        content: |
+          FROM awx-ee:latest
+          # 将自定义的pip配置文件复制到镜像中
+          COPY pip.conf /etc/pip.conf
+    - name: Execute docker build command
+      command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
+      args:
+        chdir: "{{ dir }}"
+    - name: Execute docker push command
+      shell: docker push "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}"
