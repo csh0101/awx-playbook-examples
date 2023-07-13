@@ -35,15 +35,15 @@
           # 将自定义的pip配置文件复制到镜像中
           COPY pip.conf /etc/pip.conf
     - name: Execute docker build command
-      command: docker build -t "{{ REPO }}/{{ IMAGE }}:{{ TAG }}" .
+      command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
       args:
         chdir: "{{ dir }}" 
     - name: Log into DockerHub
       community.docker.docker_login:
-        username: csh0310
-        password: csh031027
+        username: "{{ docker.hub.user }}"
+        password: "{{ docker.hub.password }}"
     - name: Execute docker push command
-      shell: docker push "{{ REPO }}/{{ IMAGE }}:{{ TAG }}"
+      shell: docker push "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}"
 
     
 
