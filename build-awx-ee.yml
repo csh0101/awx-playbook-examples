@@ -29,9 +29,3 @@
           FROM awx-ee:latest
           # 将自定义的pip配置文件复制到镜像中
           COPY pip.conf /etc/pip.conf
-    - name: Execute docker build command
-      command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
-      args:
-        chdir: "{{ dir }}"
-    - name: Execute docker push command
-      shell: docker push "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}"
