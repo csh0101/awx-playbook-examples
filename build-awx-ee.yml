@@ -2,7 +2,6 @@
   hosts: "{{ host_name }}"
   gather_facts: false
   remote_user: root
-
   tasks:
     - name: pip config file create
       file:
@@ -10,22 +9,3 @@
         mode: "0444"
         state: touch
       register: script_file_created
-    - name: docker file create
-      file:
-        path: "{{ dir }}/{{ dockerfile }}"
-        mode: "0444"
-        state: file
-    - name: pip configure
-      blockinfile:
-        path: "{{ dir }}/{{ pip_config_file }}"
-        content: |
-          [global]
-          index-url = https://pypi.tuna.tsinghua.edu.cn/simple
-      when: script_file_created.changed
-    - name: docker file configure
-      blockinfile:
-        path: "{{ dir }}/{{ dockerfile }}"
-        content: |
-          FROM awx-ee:latest
-          # 将自定义的pip配置文件复制到镜像中
-          COPY pip.conf /etc/pip.conf
