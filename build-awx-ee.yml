@@ -13,6 +13,7 @@
       file:
         path: "{{ dir }}/{{ dockerfile }}"
         mode: "0444"
+        state: touch
         state: file
     - name: pip configure
       blockinfile:
