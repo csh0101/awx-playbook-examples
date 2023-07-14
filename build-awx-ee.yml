@@ -1,4 +1,4 @@
-- name: Execute Script
+- name: build-awx-ee-image
   hosts: "{{ host_name }}"
   gather_facts: false
   remote_user: root
@@ -25,7 +25,7 @@
       blockinfile:
         path: "{{ dir }}/{{ dockerfile }}"
         content: |
-          FROM awx-ee:latest
+          FROM quay.io/ansible/awx-ee:latest
           # 将自定义的pip配置文件复制到镜像中
           COPY pip.conf /etc/pip.conf
     - name: Execute docker build command
