@@ -1,3 +1,4 @@
+---
 - name: build-awx-ee-image
   hosts: "{{ host_name }}"
   gather_facts: false
@@ -25,9 +26,13 @@
       blockinfile:
         path: "{{ dir }}/{{ dockerfile }}"
         content: |
-          FROM quay.io/ansible/awx-ee:latest
-          # 将自定义的pip配置文件复制到镜像中
-          COPY pip.conf /etc/pip.conf
+            FROM quay.io/ansible/awx-ee:latest
+            # 将自定义的pip配置文件复制到镜像中
+            COPY pip.conf /etc/pip.conf
+            # 创建consul文件夹并进入其中
+            RUN mkdir -p /runner/consul && cd /runner/consul  
+            # 创建Python虚拟环境venv并激活
+            RUN python3 -m venv . && source /runner/consul/bin/activate
     - name: Execute docker build command
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
       args:
