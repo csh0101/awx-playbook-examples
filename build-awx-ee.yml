@@ -33,7 +33,7 @@
           USER root
           # 创建Python虚拟环境venv
           RUN python3 -m venv .
-          RUN echo "source /runner/bin/activate" >> /etc/bashrc
+          RUN echo "source /runner/bin/activate" >> /etc/profile
 
     - name: Execute docker build command
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
