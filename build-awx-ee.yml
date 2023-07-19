@@ -37,7 +37,7 @@
           RUN python3 -m venv .
 
           # 激活虚拟环境
-          RUN . /runner/consul/bin/activate
+          # RUN . /runner/consul/bin/activate
     - name: Execute docker build command
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
       args:
