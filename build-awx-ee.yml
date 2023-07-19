@@ -33,12 +33,10 @@
           # 创建consul文件夹并进入其中
           RUN mkdir -p /runner/consul && cd /runner/consul
 
-          RUN useradd -m -s /bin/bash runner
           USER root
           # 创建Python虚拟环境venv
           RUN python3 -m venv .
           RUN echo "source /runner/consul/activate" >> /etc/bashrc
-          USER runner
 
     - name: Execute docker build command
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
