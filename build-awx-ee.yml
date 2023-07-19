@@ -33,9 +33,11 @@
           # 创建consul文件夹并进入其中
           RUN mkdir -p /runner/consul && cd /runner/consul
 
+          USER root
           # 创建Python虚拟环境venv
           RUN python3 -m venv .
           RUN echo "source /runner/consul/bin/activate" >> /etc/bashrc
+          USER runner
 
           # 激活虚拟环境
           # RUN . /runner/consul/bin/activate
