@@ -36,7 +36,7 @@
           # 创建Python虚拟环境venv
           RUN python3 -m venv .
           # 在 /runner/目录下创建 .bashrc文件,并且写入激活虚拟环境的命令
-          RUN echo "source /runner/consul/bin/activate" >> /runner/.bashrc
+          RUN echo "source /runner/bin/activate" >> /runner/.bashrc
 
           # 激活虚拟环境
           # RUN . /runner/bin/activate
