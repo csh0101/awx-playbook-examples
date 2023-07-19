@@ -39,7 +39,7 @@
           RUN echo "source /runner/consul/bin/activate" >> /runner/.bashrc
 
           # 激活虚拟环境
-          # RUN . /runner/consul/bin/activate
+          # RUN . /runner/bin/activate
     - name: Execute docker build command
       command: docker build -t "{{ docker.repo }}/{{ docker.image }}:{{ docker.tag }}" .
       args:
