@@ -41,4 +41,7 @@
         url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-linux-x86_64
         dest: /usr/local/bin/docker-compose
         mode: 'u+x,g+x'
-
+      environment:
+        https_proxy: "https://127.0.0.1:7890"
+        http_proxy: "http://127.0.0.1:7890"
+        all_proxy: "socks5://127.0.0.1:7890"
