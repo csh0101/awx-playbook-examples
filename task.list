@@ -1,0 +1,2 @@
+* 增加ansible-runner的编译 playbook，便于定制化runner
+* 增加postgres故障模拟的playbook，便于测试postgres的健壮性
